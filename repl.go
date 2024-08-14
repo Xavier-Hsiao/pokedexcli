@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func startRpl() {
@@ -15,6 +16,17 @@ func startRpl() {
 		scanner.Scan()
 		input := scanner.Text()
 
-		fmt.Println("You've entered:", input)
+		cleanedInput := cleanInput(input)
+		if len(cleanedInput) == 0 {
+			continue
+		}
+
+		fmt.Println("Entered: ", cleanedInput)
 	}
+}
+
+// Clean user input and return a slice of tokens
+func cleanInput(str string) []string {
+	cleanedStr := strings.ToLower(str)
+	return strings.Fields(cleanedStr)
 }
