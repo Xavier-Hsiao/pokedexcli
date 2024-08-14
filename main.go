@@ -1,19 +1,13 @@
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-)
-
 func main() {
-	// Get user input
-	scanner := bufio.NewScanner(os.Stdin)
+	startRpl()
 
-	fmt.Println("Enter your input")
-
-	scanner.Scan()
-	input := scanner.Text()
-
-	fmt.Println("You've entered:", input)
+	// We have two commands:
+	// help: prints a help message describing how to use the REPL
+	// exit: exits the program
+	type cliCommand struct {
+		name        string
+		description string
+	}
 }
