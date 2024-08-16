@@ -8,7 +8,7 @@ import (
 
 func TestCreateCache(t *testing.T) {
 	const interval = 5 * time.Second
-	testCache := createNewCache(interval)
+	testCache := CreateNewCache(interval)
 	if testCache.cache == nil {
 		t.Error("cache is nil")
 	}
@@ -32,7 +32,7 @@ func TestAddGet(t *testing.T) {
 
 	for i, c := range cases {
 		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
-			cache := createNewCache(interval)
+			cache := CreateNewCache(interval)
 			cache.Add(c.key, c.val)
 			val, ok := cache.Get(c.key)
 			if !ok {
@@ -51,7 +51,7 @@ func TestReapLoop(t *testing.T) {
 	const baseTime = 10 * time.Millisecond
 	const waitTime = baseTime + 10*time.Millisecond
 
-	testCache := createNewCache(baseTime)
+	testCache := CreateNewCache(baseTime)
 	testCache.Add("https://example.com", []byte("testdata"))
 
 	_, ok := testCache.Get("https://example.com")
@@ -73,7 +73,7 @@ func TestFailedReapLoop(t *testing.T) {
 	const baseTime = 10 * time.Millisecond
 	const waitTime = baseTime + 10*time.Millisecond
 
-	testCache := createNewCache(baseTime)
+	testCache := CreateNewCache(baseTime)
 	key := "https://example.com"
 	testCache.Add(key, []byte("testdata"))
 

@@ -13,7 +13,7 @@ type cacheEntry struct {
 	val       []byte
 }
 
-func createNewCache(interval time.Duration) Cache {
+func CreateNewCache(interval time.Duration) Cache {
 	c := Cache{
 		cache: make(map[string]cacheEntry),
 	}
