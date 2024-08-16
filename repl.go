@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startRpl() {
+func startRpl(cfg *config) {
 	// Get user input
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -29,7 +29,7 @@ func startRpl() {
 			fmt.Println("Invalid command")
 			continue
 		}
-		cmd.callback()
+		cmd.callback(cfg)
 	}
 }
 
@@ -39,7 +39,7 @@ func startRpl() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 // Get all available commands

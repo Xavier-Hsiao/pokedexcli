@@ -3,13 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
-
-	"github.com/Xavier-Hsiao/pokedexcli/internal/pokeapi"
 )
 
-func callMap() error {
-	pokeapiClient := pokeapi.CreateNewClient()
-	resp, err := pokeapiClient.ListLocationAreas()
+func callMap(cfg *config) error {
+	resp, err := cfg.pokeapiClient.ListLocationAreas()
 
 	if err != nil {
 		log.Fatal(err)
