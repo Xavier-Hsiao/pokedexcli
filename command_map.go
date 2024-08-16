@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func callMap(cfg *config) error {
+func callMap(cfg *config, args ...string) error {
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationsURL)
 	if err != nil {
 		return errors.New("failed to fetch data")

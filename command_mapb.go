@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func callMapb(cfg *config) error {
+func callMapb(cfg *config, args ...string) error {
 	if cfg.prevLocationsURL == nil {
 		return errors.New("you're on the first page already")
 	}

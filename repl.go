@@ -21,6 +21,11 @@ func startRpl(cfg *config) {
 			continue
 		}
 
+		args := []string{}
+		if len(cleanedInput) > 1 {
+			args = cleanedInput[1:]
+		}
+
 		commandName := cleanedInput[0]
 		availableCommands := getCommands()
 
@@ -29,7 +34,7 @@ func startRpl(cfg *config) {
 			fmt.Println("Invalid command")
 			continue
 		}
-		err := cmd.callback(cfg)
+		err := cmd.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -42,7 +47,7 @@ func startRpl(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 // Get all available commands
@@ -62,6 +67,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Go back to the previous page of location areas",
 			callback:    callMapb,
+		},
+		"explore": {
+			name:        "explore {area_name}",
+			description: "Get area information",
+			callback:    callExplore,
 		},
 		"exit": {
 			name:        "exit",
