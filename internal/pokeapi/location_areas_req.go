@@ -30,7 +30,7 @@ func (c *Client) ListLocationAreas() (LocationAreasResp, error) {
 		return LocationAreasResp{}, err
 	}
 
-	// Unmarshel dat into struct
+	// Unmarshel data into struct
 	var locationResponse LocationAreasResp
 	if err := json.Unmarshal(data, &locationResponse); err != nil {
 		return LocationAreasResp{}, fmt.Errorf("failed to unmarshel json: %v", err)
