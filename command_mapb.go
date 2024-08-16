@@ -5,8 +5,11 @@ import (
 	"fmt"
 )
 
-func callMap(cfg *config) error {
-	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationsURL)
+func callMapb(cfg *config) error {
+	if cfg.prevLocationsURL == nil {
+		return errors.New("you're on the first page already")
+	}
+	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.prevLocationsURL)
 	if err != nil {
 		return errors.New("failed to fetch data")
 	}

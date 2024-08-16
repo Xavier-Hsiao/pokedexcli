@@ -29,7 +29,10 @@ func startRpl(cfg *config) {
 			fmt.Println("Invalid command")
 			continue
 		}
-		cmd.callback(cfg)
+		err := cmd.callback(cfg)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
@@ -54,6 +57,11 @@ func getCommands() map[string]cliCommand {
 			name:        "map",
 			description: "List out location areas",
 			callback:    callMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Go back to the previous page of location areas",
+			callback:    callMapb,
 		},
 		"exit": {
 			name:        "exit",
