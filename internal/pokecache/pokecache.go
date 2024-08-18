@@ -1,11 +1,13 @@
 package pokecache
 
 import (
+	"sync"
 	"time"
 )
 
 type Cache struct {
 	cache map[string]cacheEntry
+	mu    *sync.Mutex
 }
 
 type cacheEntry struct {
@@ -16,6 +18,7 @@ type cacheEntry struct {
 func CreateNewCache(interval time.Duration) Cache {
 	c := Cache{
 		cache: make(map[string]cacheEntry),
+		mu:    &sync.Mutex{},
 	}
 	// Should do the reapLoop in a saparate goroutine
 	// otherwise `c` will never get returned
@@ -24,6 +27,8 @@ func CreateNewCache(interval time.Duration) Cache {
 }
 
 func (c *Cache) Add(key string, val []byte) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	c.cache[key] = cacheEntry{
 		createdAt: time.Now(),
 		val:       val,

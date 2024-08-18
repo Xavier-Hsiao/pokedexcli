@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 func callCatch(cfg *config, arg ...string) error {
@@ -18,15 +19,20 @@ func callCatch(cfg *config, arg ...string) error {
 		return errors.New("failed to fetch data")
 	}
 
+	fmt.Printf("Throwing a Pokeball to %s...\n", pokemonName)
+	time.Sleep(1000 * time.Microsecond)
+
 	// Use random number to determine the chance of cathing the pokemon
 	// based upon the pokemon's `base experience`
 	const threshold = 50
 	randNum := rand.Intn(pokemon.BaseExperience)
 	if randNum > threshold {
-		return fmt.Errorf("failed to catch %s", pokemonName)
+		fmt.Printf("%s escaped!\n", pokemonName)
+		return nil
 	}
+	cfg.caughtPokemon[pokemonName] = pokemon
 
-	fmt.Printf("You've catched %s", pokemonName)
+	fmt.Printf("%s was caught!\n", pokemonName)
 
 	return nil
 }
