@@ -11,11 +11,22 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
+}
+
+// Use pointers to distinguish the API's null (no page) from an empty string.
+// nil means no next page (API returns null) and pure string cannot accept nil.
+type config struct {
+	nextURL *string
+	prevURL *string
 }
 
 func startRepl() {
 	commands := getCommands()
+	cfg := config{
+		nextURL: nil,
+		prevURL: nil,
+	}
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -29,7 +40,7 @@ func startRepl() {
 		}
 
 		if command, ok := commands[input[0]]; ok {
-			err := command.callback()
+			err := command.callback(&cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -62,6 +73,16 @@ func getCommands() map[string]cliCommand {
 			name:        "help",
 			description: "List out the available commands and their usage",
 			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Display the name of 20 areas in Pokemon world",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Display the name of areas on the previous page",
+			callback:    commandMapb,
 		},
 	}
 }
