@@ -6,6 +6,9 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/xavier-hsiao/pokedexcli/internal/pokeapi"
 )
 
 type cliCommand struct {
@@ -17,15 +20,17 @@ type cliCommand struct {
 // Use pointers to distinguish the API's null (no page) from an empty string.
 // nil means no next page (API returns null) and pure string cannot accept nil.
 type config struct {
-	nextURL *string
-	prevURL *string
+	nextURL       *string
+	prevURL       *string
+	pokeapiClient pokeapi.Client
 }
 
 func startRepl() {
 	commands := getCommands()
 	cfg := config{
-		nextURL: nil,
-		prevURL: nil,
+		nextURL:       nil,
+		prevURL:       nil,
+		pokeapiClient: pokeapi.NewClient(5 * time.Minute),
 	}
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
