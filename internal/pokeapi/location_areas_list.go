@@ -7,21 +7,9 @@ import (
 	"net/http"
 )
 
-type AreasResp struct {
-	Count    int            `json:"count"`
-	Next     *string        `json:"next"`
-	Previous *string        `json:"previous"`
-	Results  []LocationArea `json:"results"`
-}
-
-type LocationArea struct {
-	Name string `json:"name"`
-	URL  string `json:"url"`
-}
-
 const baseURL = "https://pokeapi.co/api/v2/location-area"
 
-func (client Client) GetAreas(pageURL *string) (AreasResp, error) {
+func (client Client) ListLocationAreas(pageURL *string) (AreasResp, error) {
 	targetURL := baseURL
 	if pageURL != nil {
 		targetURL = *pageURL

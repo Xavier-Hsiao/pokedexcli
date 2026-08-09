@@ -14,7 +14,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 // Use pointers to distinguish the API's null (no page) from an empty string.
@@ -45,7 +45,7 @@ func startRepl() {
 		}
 
 		if command, ok := commands[input[0]]; ok {
-			err := command.callback(&cfg)
+			err := command.callback(&cfg, input[1:])
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -88,6 +88,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Display the name of areas on the previous page",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "See a list of all Pokémon in an area",
+			callback:    commandExplore,
 		},
 	}
 }
