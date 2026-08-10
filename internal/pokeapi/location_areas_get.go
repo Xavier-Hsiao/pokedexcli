@@ -8,7 +8,7 @@ import (
 )
 
 func (client Client) GetLocationAreaByName(name string) (LocationAreaDetail, error) {
-	targetURL := baseURL + "/" + name
+	targetURL := locationBaseURL + "/" + name
 
 	// Look up cache
 	if body, ok := client.cache.Get(targetURL); ok {
@@ -30,7 +30,7 @@ func (client Client) GetLocationAreaByName(name string) (LocationAreaDetail, err
 	defer res.Body.Close()
 
 	if res.StatusCode > 299 {
-		return LocationAreaDetail{}, fmt.Errorf("pokedex api request failed with status: %d", res.StatusCode)
+		return LocationAreaDetail{}, fmt.Errorf("location api request failed with status: %d", res.StatusCode)
 	}
 
 	body, err := io.ReadAll(res.Body)

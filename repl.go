@@ -23,6 +23,7 @@ type config struct {
 	nextURL       *string
 	prevURL       *string
 	pokeapiClient pokeapi.Client
+	pokedex       map[string]pokeapi.Pokemon
 }
 
 func startRepl() {
@@ -31,6 +32,7 @@ func startRepl() {
 		nextURL:       nil,
 		prevURL:       nil,
 		pokeapiClient: pokeapi.NewClient(5 * time.Minute),
+		pokedex:       map[string]pokeapi.Pokemon{},
 	}
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -93,6 +95,11 @@ func getCommands() map[string]cliCommand {
 			name:        "explore",
 			description: "See a list of all Pokémon in an area",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Catch a Pokémon and add it to the Pokédex",
+			callback:    commandCatch,
 		},
 	}
 }

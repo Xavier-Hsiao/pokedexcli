@@ -7,10 +7,8 @@ import (
 	"net/http"
 )
 
-const baseURL = "https://pokeapi.co/api/v2/location-area"
-
 func (client Client) ListLocationAreas(pageURL *string) (AreasResp, error) {
-	targetURL := baseURL
+	targetURL := locationBaseURL
 	if pageURL != nil {
 		targetURL = *pageURL
 	}
@@ -35,7 +33,7 @@ func (client Client) ListLocationAreas(pageURL *string) (AreasResp, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode > 299 {
-		return AreasResp{}, fmt.Errorf("pokedex api request failed with status: %d", res.StatusCode)
+		return AreasResp{}, fmt.Errorf("location api request failed with status: %d", res.StatusCode)
 	}
 
 	body, err := io.ReadAll(res.Body)
